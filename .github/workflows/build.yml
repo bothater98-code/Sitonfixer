@@ -1,0 +1,41 @@
+name: Sitonfixer — free iOS build
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  native-check:
+    if: github.event.repository.private == false
+    runs-on: xcode-27
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify reviewed source package
+        run: echo "5a50fa537097a3aabb5353a3a3bcdc75daf58bc1d7098d13b4c2c157ca2c7a66  Sitonfixer-source.zip" | shasum -a 256 -c -
+      - name: Reconstruct pinned source
+        run: |
+          unzip -q Sitonfixer-source.zip -d payload
+          python3 payload/Sitonfixer/bootstrap.py --destination source
+      - name: Typecheck native components against iOS SDK
+        run: bash source/sitonfixer/typecheck-ios.sh
+  build:
+    needs: native-check
+    if: github.event.repository.private == false
+    runs-on: xcode-27
+    timeout-minutes: 330
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify and reconstruct reviewed source
+        run: |
+          echo "5a50fa537097a3aabb5353a3a3bcdc75daf58bc1d7098d13b4c2c157ca2c7a66  Sitonfixer-source.zip" | shasum -a 256 -c -
+          unzip -q Sitonfixer-source.zip -d payload
+          python3 payload/Sitonfixer/bootstrap.py --destination source
+      - name: Prepare macOS dependencies
+        run: bash source/sitonfixer/prepare-macos.sh
+      - name: Build free-signing target
+        run: bash source/sitonfixer/build-macos.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Sitonfixer-unsigned
+          path: source/sitonfixer-dist/Sitonfixer-unsigned.ipa
+          retention-days: 7
