@@ -32,3 +32,5 @@ La salida es una IPA sin firma. Un instalador compatible debe firmarla con la cu
 La firma macOS opcional solo requiere dos perfiles de desarrollo ya disponibles y una identidad en el llavero; no pide Network Extension. No se incluyen certificados ni contraseñas.
 
 GitHub Actions puede compilar con sus ejecutores estándar gratuitos en un repositorio público que contenga exclusivamente código. Primero se comprueban los componentes nuevos con el compilador iOS; después se compila la aplicación completa. No se usan ejecutores de pago ni trabajos en repositorios privados.
+
+La compilación rápida reutiliza Cemu.framework sin modificar de la IPA oficial v11.2, comprobando el SHA-256 del archivo completo. Compila la app y el auxiliar modificados. Para reconstruir también el núcleo desde su fuente puede usarse SITONFIXER_BUILD_CORE_FROM_SOURCE=1; no se afirma haber recompilado ese núcleo cuando se reutiliza.
