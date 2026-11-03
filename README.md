@@ -6,13 +6,19 @@ Prototipo de emulación Wii U basado en MuffinEMU/Cemu v11.2. Presupuesto máxim
 
 La revisión 8 se compiló desde fuentes, se instaló y el usuario confirmó 32 casos del backend ARM64 real después de reiniciar el iPhone, sin USB, Internet, VPN ni activar el JIT de iOS. Se comprobaron enteros, RAM big-endian, división con saltos, dobles y llamada al motor. No era aún el frontend PowerPC ni un juego.
 
-## Trabajo actual: revisión 9
+## Frontend confirmado: revisión 9
 
 Añade «Probar frontend PowerPC de Cemu». Un programa sintético de nueve instrucciones pasa por el análisis de límites, el decodificador, las optimizaciones, la asignación de registros y el emisor ARM64 reales. Usa una ventana privada de instrucciones y RAM de prueba. Incluye suma, almacenamiento/carga big-endian, comparación y dos ramas, contador de ciclos y retorno mediante stubs firmados. El comprobador verifica 32 estados incluyendo suma cero y desbordamiento modular.
 
 La emisión compartida conserva el cuerpo de generación de la revisión 8. La nueva salida de bytes usa un allocator RW, no finaliza memoria ejecutable y no publica funciones en las tablas de juegos. Se mantienen la prueba escalar y la del backend anterior.
 
-Esta revisión requiere compilación y prueba física antes de declararla validada. No arranca títulos, no implementa publicación de módulos de producción, no almacena la identidad ni renueva perfiles. Véase sitonfixer/FRONTEND-PROBE.md.
+La revisión 9 se compiló e instaló y el usuario confirmó los 32 casos tras el procedimiento de reinicio completo sin USB, red ni VPN. Es evidencia comunicada por el usuario, sin captura USB simultánea. No arranca títulos, no implementa publicación de módulos de producción, no almacena la identidad ni renueva perfiles. Véase sitonfixer/FRONTEND-PROBE.md.
+
+## Trabajo actual: revisión 10
+
+Añade «Probar módulo firmado de 64 KiB». El linker de la plataforma genera una plantilla con 64 KiB de texto alineado a 16 KiB, conservando la estructura Mach-O que él mismo calcula. El compositor copia sin modificar el programa nativo del frontend validado en la revisión 9 en el offset 32 KiB. Dos funciones nativas adicionales realizan llamadas entre páginas, una de ellas anidada y hacia atrás. Se comprueban 32 estados por cada una de las tres entradas (96 en total).
+
+No son tres programas PowerPC diferentes ni un gestor de módulos para juegos. Es una prueba de tamaño, firma/carga de más páginas, offsets y llamadas entre funciones. Los tests previos ejecutan las instrucciones del compositor Swift real en un emulador ARM64 independiente y comprueban argumentos, pila, registros preservados y memoria. Compilación y prueba física de esta revisión siguen pendientes.
 
 ## Compilación
 
