@@ -40,3 +40,7 @@ La firma macOS opcional solo requiere dos perfiles de desarrollo ya disponibles 
 GitHub Actions puede compilar con sus ejecutores estándar gratuitos en un repositorio público que contenga exclusivamente código. Primero se comprueban los componentes nuevos con el compilador iOS; después se compila la aplicación completa. No se usan ejecutores de pago ni trabajos en repositorios privados.
 
 La compilación rápida reutiliza Cemu.framework sin modificar de la IPA oficial v11.2, comprobando el SHA-256 del archivo completo. Compila la app y el auxiliar modificados. Para reconstruir también el núcleo desde su fuente puede usarse SITONFIXER_BUILD_CORE_FROM_SOURCE=1; no se afirma haber recompilado ese núcleo cuando se reutiliza.
+
+## Investigación alternativa sin JIT
+
+Esta revisión añade una prueba de traducción previa PowerPC → ARM64 y firma local, accesible en Ajustes > JIT. Usa únicamente código sintético propio y un certificado importado localmente. No es un motor Wii U AOT completo y no elimina todavía LocalDevVPN de la ruta habitual. No renueva perfiles. Consulta sitonfixer/AOT-RESEARCH.md para alcance y pruebas. Ningún certificado, contraseña, juego ni partida se publica.
