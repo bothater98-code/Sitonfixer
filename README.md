@@ -14,11 +14,17 @@ La emisión compartida conserva el cuerpo de generación de la revisión 8. La n
 
 La revisión 9 se compiló e instaló y el usuario confirmó los 32 casos tras el procedimiento de reinicio completo sin USB, red ni VPN. Es evidencia comunicada por el usuario, sin captura USB simultánea. No arranca títulos, no implementa publicación de módulos de producción, no almacena la identidad ni renueva perfiles. Véase sitonfixer/FRONTEND-PROBE.md.
 
-## Trabajo actual: revisión 10
+## Módulo mayor confirmado: revisión 10
 
 Añade «Probar módulo firmado de 64 KiB». El linker de la plataforma genera una plantilla con 64 KiB de texto alineado a 16 KiB, conservando la estructura Mach-O que él mismo calcula. El compositor copia sin modificar el programa nativo del frontend validado en la revisión 9 en el offset 32 KiB. Dos funciones nativas adicionales realizan llamadas entre páginas, una de ellas anidada y hacia atrás. Se comprueban 32 estados por cada una de las tres entradas (96 en total).
 
-No son tres programas PowerPC diferentes ni un gestor de módulos para juegos. Es una prueba de tamaño, firma/carga de más páginas, offsets y llamadas entre funciones. Los tests previos ejecutan las instrucciones del compositor Swift real en un emulador ARM64 independiente y comprueban argumentos, pila, registros preservados y memoria. Compilación y prueba física de esta revisión siguen pendientes.
+No son tres programas PowerPC diferentes ni un gestor de módulos para juegos. Es una prueba de tamaño, firma/carga de más páginas, offsets y llamadas entre funciones. Los tests previos ejecutan las instrucciones del compositor Swift real en un emulador ARM64 independiente y comprueban argumentos, pila, registros preservados y memoria. La revisión 10 se compiló e instaló y el usuario confirmó los 96 casos siguiendo el procedimiento de reinicio sin USB, red ni VPN; sin captura USB simultánea.
+
+## Trabajo actual: revisión 11
+
+Añade «Probar carga y cierre de módulos», utilizando `SignedCodeImage`, `SignedCodeModule` y `ModuleLifetime`. Cada imagen recibe UUID e install_name propios antes de firmar. El cargador presta las entradas dentro de llamadas acotadas, impide nuevos préstamos al pedir el cierre y libera su referencia al cargador tras terminar las llamadas activas. La creación del directorio es exclusiva; una colisión no borra los archivos de otro módulo.
+
+La nueva prueba abre dos imágenes con marcadores distintos y el mismo programa PPC9, comprueba 192 casos y verifica cierre diferido, rechazo de llamadas nuevas y conservación de la otra biblioteca. El preflight utiliza además bibliotecas ARM64 reales de macOS, firma ad hoc sin claves del usuario, el cargador nativo y pruebas concurrentes del contrato de vida. Sigue pendiente compilar y validar esta revisión en el iPhone. No publica funciones en el dispatcher de juegos ni gestiona todavía sus hilos o renovación. Véase sitonfixer/MODULE-LIFETIME.md.
 
 ## Compilación
 
