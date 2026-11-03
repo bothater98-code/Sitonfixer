@@ -44,3 +44,7 @@ La compilación rápida reutiliza Cemu.framework sin modificar de la IPA oficial
 ## Investigación alternativa sin JIT
 
 Esta revisión añade una prueba de traducción previa PowerPC → ARM64 y firma local, accesible en Ajustes > JIT. Usa únicamente código sintético propio y un certificado importado localmente. No es un motor Wii U AOT completo y no elimina todavía LocalDevVPN de la ruta habitual. No renueva perfiles. Consulta sitonfixer/AOT-RESEARCH.md para alcance y pruebas. Ningún certificado, contraseña, juego ni partida se publica.
+
+## Corrección de firma de bibliotecas (revisión 6)
+
+La dependencia LGPL-2.1-or-later apple-codesign-quick 0.1.0 se reconstruye desde su crate público con SHA-256 fijado y las modificaciones completas de prepare-codesign.py. La firma de bibliotecas omite entitlements; la del ejecutable principal los conserva. Las 19 pruebas del firmador pasan en Windows. Falta validar esta revisión en el iPhone. El diagnóstico de carga ahora conserva un motivo acotado y oculta rutas de contenedores e identificadores. No se publican registros ni archivos del teléfono. La licencia LGPL-2.1 se incluye en sitonfixer/LGPL-2.1.txt; fuente original: https://github.com/Dadoum/apple-crates y https://crates.io/crates/apple-codesign-quick/0.1.0.
