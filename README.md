@@ -22,7 +22,7 @@ La preparación por Internet está desactivada por defecto. Si falta la DDI mont
 
 ## Pendiente de demostrar
 
-Una revisión anterior ha pasado la compilación completa de Xcode y ha generado una IPA cuya integridad se ha comprobado. Esta revisión debe volver a compilarse. Ninguna se ha probado en el iPhone. Reutilizar una VPN local no demuestra que pueda reconectarse desde cero en modo avión. Tampoco se garantiza funcionamiento desconectado tras reiniciar iOS. El presupuesto máximo es 0 euros; no se contrata ni factura ningún servicio.
+Las revisiones anteriores han pasado la compilación completa de Xcode. La prueba escalar se ha ejecutado hasta la carga del bloque, donde iOS rechazó la firma; no se ha demostrado ejecución ARM64 ni emulación Wii U por esta vía. Reutilizar una VPN local tampoco demuestra que pueda reconectarse desde cero en modo avión. No se garantiza funcionamiento desconectado tras reiniciar iOS. El presupuesto máximo es 0 euros; no se contrata ni factura ningún servicio.
 
 ## Entorno
 
