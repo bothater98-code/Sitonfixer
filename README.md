@@ -26,9 +26,13 @@ Añade «Probar carga y cierre de módulos», utilizando `SignedCodeImage`, `Sig
 
 La nueva prueba abre dos imágenes con marcadores distintos y el mismo programa PPC9, comprueba 192 casos y verifica cierre diferido, rechazo de llamadas nuevas y conservación de la otra biblioteca. El preflight utiliza además bibliotecas ARM64 reales de macOS, firma ad hoc sin claves del usuario, el cargador nativo y pruebas concurrentes del contrato de vida. La revisión 11 se compiló e instaló y el usuario confirmó los 192 casos después del reinicio sin USB, red ni VPN; sin captura USB simultánea. No publica funciones en el dispatcher de juegos ni gestiona todavía sus hilos o renovación. Véase sitonfixer/MODULE-LIFETIME.md.
 
-## Trabajo actual: revisión 12
+## Entrada y salida confirmadas: revisión 12
 
-Añade «Probar entrada y salida de Cemu». El emisor compartido produce bytes inertes de los stubs reales de entrada/salida, con CPU, tabla y RAM suministradas como argumentos explícitos. La prueba los firma junto con el programa PPC9 y utiliza el cargador validado de la revisión 11. Se comprueban ambas salidas y 192 casos entre dos módulos. No cambia todavía la inicialización de juegos ni activa un modo firmado de producción. Compilación y prueba física pendientes. Véase sitonfixer/INTERFACE-PROBE.md.
+Añade «Probar entrada y salida de Cemu». El emisor compartido produce bytes inertes de los stubs reales de entrada/salida, con CPU, tabla y RAM suministradas como argumentos explícitos. La prueba los firma junto con el programa PPC9 y utiliza el cargador validado de la revisión 11. Se comprueban ambas salidas y 192 casos entre dos módulos. Se compiló e instaló y el usuario confirmó esos 192 casos tras el reinicio sin USB, red ni VPN, sin observador USB simultáneo. No cambia todavía la inicialización de juegos ni activa un modo firmado de producción. Véase sitonfixer/INTERFACE-PROBE.md.
+
+## Trabajo actual: revisión 13
+
+Añade «Probar despacho entre funciones PowerPC». Dos funciones distintas se compilan por separado y se cargan en dos imágenes firmadas. Una llamada PowerPC A → B retorna a una entrada de continuación de A mediante una tabla privada. La prueba retira B, comprueba la salida controlada, la repone y reanuda. Son 192 comprobaciones sobre 64 estados iniciales con ambas salidas firmadas. No ejecuta aún un intérprete de respaldo ni modifica las tablas de juegos. Compilación y prueba física pendientes. Véase sitonfixer/DISPATCH-PROBE.md.
 
 ## Compilación
 
