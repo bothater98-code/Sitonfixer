@@ -1,22 +1,22 @@
 # Sitonfixer
 
-Aplicación experimental basada en MuffinEMU v11.2 para investigar emulación independiente en el iPhone, con presupuesto máximo de 0 euros.
+Prototipo de emulación Wii U basado en MuffinEMU/Cemu v11.2. Presupuesto máximo: 0 euros. El objetivo es unificar el uso en el iPhone sin PC, VPN ni servicios durante el juego; el objetivo completo no está terminado.
 
-## Estado comprobado
+## Resultado confirmado
 
-La revisión 7 ha ejecutado un pequeño bloque escalar PowerPC → ARM64 generado y firmado en el propio iPhone. El usuario confirmó la ejecución tras cerrar y abrir la app, sin USB, Internet, VPN ni depurador. La confianza inicial de esa instalación requirió conexión. Esto no demuestra juegos Wii U ni renovación autónoma.
+La revisión 8 se compiló desde fuentes, se instaló y el usuario confirmó 32 casos del backend ARM64 real después de reiniciar el iPhone, sin USB, Internet, VPN ni activar el JIT de iOS. Se comprobaron enteros, RAM big-endian, división con saltos, dobles y llamada al motor. No era aún el frontend PowerPC ni un juego.
 
-## Siguiente hito: backend real de Cemu
+## Trabajo actual: revisión 9
 
-Esta revisión añade «Probar backend real de Cemu» en Ajustes → JIT → Prueba experimental sin JIT. Utiliza las rutinas ARM64 existentes del motor para emitir un bloque IML de prueba, con registros, RAM big-endian, división con saltos, coma flotante y una llamada a un auxiliar del motor. Comprueba 32 casos y conserva registros no modificados y bytes de RAM como testigos. No usa juegos ni cambia la ruta de ejecución habitual.
+Añade «Probar frontend PowerPC de Cemu». Un programa sintético de nueve instrucciones pasa por el análisis de límites, el decodificador, las optimizaciones, la asignación de registros y el emisor ARM64 reales. Usa una ventana privada de instrucciones y RAM de prueba. Incluye suma, almacenamiento/carga big-endian, comparación y dos ramas, contador de ciclos y retorno mediante stubs firmados. El comprobador verifica 32 estados incluyendo suma cero y desbordamiento modular.
 
-El código se emite en memoria solamente escribible, se copia a una biblioteca Mach-O, se firma localmente y se carga. No se activa el JIT de iOS. La prueba rechaza procesos depurados y no puede publicar memoria anónima ejecutable. Esta integración está pendiente de compilación completa y validación física; no es aún el recompilador conectado a juegos. Véase sitonfixer/CORE-BACKEND-PROBE.md.
+La emisión compartida conserva el cuerpo de generación de la revisión 8. La nueva salida de bytes usa un allocator RW, no finaliza memoria ejecutable y no publica funciones en las tablas de juegos. Se mantienen la prueba escalar y la del backend anterior.
 
-El certificado importado y su contraseña permanecen solo en memoria durante la operación. No se envían ni guardan. Ningún certificado, perfil, emparejamiento, juego, partida o registro privado pertenece al paquete público.
+Esta revisión requiere compilación y prueba física antes de declararla validada. No arranca títulos, no implementa publicación de módulos de producción, no almacena la identidad ni renueva perfiles. Véase sitonfixer/FRONTEND-PROBE.md.
 
-## Compilación gratuita
+## Compilación
 
-El bootstrap reconstruye la fuente pública fijada por commit y aplica el parche revisado. Desactiva los workflows heredados de publicación. En un ejecutor macOS con Xcode/SDK iOS 27 y Homebrew:
+Se necesitan macOS, Xcode/SDK iOS 27 y Homebrew. El workflow autorizado usa un ejecutor estándar gratuito en un repositorio público, con permisos de lectura.
 
 ```sh
 export SITONFIXER_BUILD_CORE_FROM_SOURCE=1
@@ -24,10 +24,10 @@ bash sitonfixer/prepare-macos.sh
 bash sitonfixer/build-macos.sh
 ```
 
-Esta revisión recompila Cemu.framework completo: reutilizar la biblioteca oficial ya no es suficiente. La compilación comprueba que ambos símbolos nuevos estén exportados. GitHub Actions se limita a ejecutores estándar de un repositorio público, sin servicios de pago. La IPA resultante queda sin firma.
+Es necesario recompilar Cemu completo. La biblioteca oficial no contiene las funciones nuevas. El gate exige ambas funciones backend y ambas frontend. La salida es una IPA sin firma; el instalador usa la identidad gratuita existente. La variante de pruebas omite el helper JIT y conserva el contenedor autorizado.
 
-## Límites pendientes
+Los certificados y perfiles no forman parte del código público. La identidad importada se conserva solo en memoria durante cada prueba. El firmador local no inicia sesión, no crea túneles ni renueva la aplicación. Las bibliotecas usan el identificador exacto del host y omiten entitlements; la dependencia apple-codesign-quick 0.1.0 se reconstruye mediante prepare-codesign.py con checksum y modificaciones fijados, con su licencia LGPL incluida. Se conservan las licencias originales de los demás componentes.
 
-Faltan integrar la publicación de bloques en la ejecución de títulos, su invalidación y duración, comprobar compatibilidad y rendimiento, guardar opcionalmente la identidad en el llavero local y resolver la renovación. La firma gratuita y la verificación de iOS conservan sus límites; este código no demuestra funcionamiento indefinido sin contacto con Apple.
+## Pendiente
 
-El firmador usa apple-codesign-quick 0.1.0 con modificaciones reproducibles de prepare-codesign.py y licencia LGPL-2.1-or-later incluida. Las bibliotecas omiten entitlements y usan el identificador exacto del host. Se conservan las licencias y atribuciones de las fuentes originales.
+Después del frontend controlado faltan integrar la publicación firmada de funciones y stubs de juegos, resolver propiedad/invalidez/apagado seguro de módulos, lotes y caché, medir títulos reales, ofrecer importación/almacenamiento local opcional de identidad y resolver la renovación. No se ha demostrado operación indefinida offline con perfiles gratuitos.
