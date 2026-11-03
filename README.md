@@ -4,6 +4,12 @@ Based on MuffinEMU by Void: https://github.com/MuffinEMU/Muffin-EMU
 
 Base: `64a872318ba615701609b5be443ab357154d30ff` (v11.2). Sitonfixer es una adaptación propia, no una versión oficial. Se conservan GPL-3.0, ATTRIBUTION.md, MPL-2.0 en el núcleo y las licencias de las dependencias.
 
+## Objetivo y límite actual
+
+El objetivo solicitado es una sola aplicación que reúna emulación, JIT, túnel local y renovación de firma, con coste total 0 €, sin PC durante el uso. El prototipo actual NO cumple aún ese objetivo: integra emulación y preparación JIT, pero depende de LocalDevVPN y de un firmador externo. No incluye un sustituto de SideStore.
+
+La extensión de túnel requiere un perfil autorizado para Network Extension. El proyecto gratuito no fabrica ese permiso ni altera la firma de LocalDevVPN. Integrar fuentes de SideStore tampoco elimina los permisos del túnel ni la caducidad de los perfiles gratuitos. La renovación de estos perfiles exige comunicarse con Apple; no se promete mantenimiento indefinido totalmente desconectado.
+
 ## Diseño gratuito
 
 Emulador Wii U y auxiliar JIT en la misma app. Reutiliza la VPN local ya instalada. No requiere PC ni USB durante el uso, ni abrir StikDebug. No integra una nueva extensión VPN ni pide Network Extension en la firma.
@@ -16,7 +22,7 @@ La preparación por Internet está desactivada por defecto. Si falta la DDI mont
 
 ## Pendiente de demostrar
 
-Todavía no está compilado ni probado en el iPhone. Reutilizar una VPN local no demuestra que pueda reconectarse desde cero en modo avión. Tampoco se garantiza funcionamiento desconectado tras reiniciar iOS. El presupuesto máximo es 0 euros; no se contrata ni factura ningún servicio.
+Una revisión anterior ha pasado la compilación completa de Xcode y ha generado una IPA cuya integridad se ha comprobado. Esta revisión debe volver a compilarse. Ninguna se ha probado en el iPhone. Reutilizar una VPN local no demuestra que pueda reconectarse desde cero en modo avión. Tampoco se garantiza funcionamiento desconectado tras reiniciar iOS. El presupuesto máximo es 0 euros; no se contrata ni factura ningún servicio.
 
 ## Entorno
 
