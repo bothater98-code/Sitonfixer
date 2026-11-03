@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Verify reviewed source package
-        run: echo "f6ab2ed3a3240aa119bb2f9eec7d38e67a13cbba65bd167b6c1f861f0d895670  Sitonfixer-source.zip" | shasum -a 256 -c -
+        run: echo "3f9ab0c0e790062751ff2e51f2f27ecb128f4c55ba05e28571eb841212f55ab0  Sitonfixer-source.zip" | shasum -a 256 -c -
       - name: Reconstruct pinned source
         run: |
           unzip -q Sitonfixer-source.zip -d payload
@@ -33,11 +33,13 @@ jobs:
     if: github.event.repository.private == false
     runs-on: xcode-27
     timeout-minutes: 330
+    env:
+      SITONFIXER_BUILD_CORE_FROM_SOURCE: '1'
     steps:
       - uses: actions/checkout@v4
       - name: Verify and reconstruct reviewed source
         run: |
-          echo "f6ab2ed3a3240aa119bb2f9eec7d38e67a13cbba65bd167b6c1f861f0d895670  Sitonfixer-source.zip" | shasum -a 256 -c -
+          echo "3f9ab0c0e790062751ff2e51f2f27ecb128f4c55ba05e28571eb841212f55ab0  Sitonfixer-source.zip" | shasum -a 256 -c -
           unzip -q Sitonfixer-source.zip -d payload
           python3 payload/Sitonfixer/bootstrap.py --destination source
       - name: Prepare macOS dependencies
