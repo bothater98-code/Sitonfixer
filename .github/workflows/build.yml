@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Verify reviewed source package
-        run: echo "8a45ebffc3cf09bd87dcf678109961f2fdcf7070fac221a3dbd0f168509a4119  Sitonfixer-source.zip" | shasum -a 256 -c -
+        run: echo "b5c0bf0c7a710d417d24fda08477e53bc70228bb277b88131a1a0db14a55d112  Sitonfixer-source.zip" | shasum -a 256 -c -
       - name: Reconstruct pinned source
         run: |
           unzip -q Sitonfixer-source.zip -d payload
@@ -43,7 +43,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Verify and reconstruct reviewed source
         run: |
-          echo "8a45ebffc3cf09bd87dcf678109961f2fdcf7070fac221a3dbd0f168509a4119  Sitonfixer-source.zip" | shasum -a 256 -c -
+          echo "b5c0bf0c7a710d417d24fda08477e53bc70228bb277b88131a1a0db14a55d112  Sitonfixer-source.zip" | shasum -a 256 -c -
           unzip -q Sitonfixer-source.zip -d payload
           python3 payload/Sitonfixer/bootstrap.py --destination source
       - name: Prepare macOS dependencies
