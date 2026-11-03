@@ -11,11 +11,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Verify reviewed source package
-        run: echo "09f6317eae52a352dc53a2b604839bcfe18d11dbe1b72af2f80147b3ae67e6e7  Sitonfixer-source.zip" | shasum -a 256 -c -
+        run: echo "bc99e6c16da58101dc2ebe0d1c8c42a8efab0e89eb1c457821a227460238adc2  Sitonfixer-source.zip" | shasum -a 256 -c -
       - name: Reconstruct pinned source
         run: |
           unzip -q Sitonfixer-source.zip -d payload
           python3 payload/Sitonfixer/bootstrap.py --destination source
+      - name: Verify synthetic translation without games
+        run: bash source/sitonfixer/check-scalar-macos.sh
       - name: Typecheck native components against iOS SDK
         run: bash source/sitonfixer/typecheck-ios.sh
   build:
@@ -27,7 +29,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Verify and reconstruct reviewed source
         run: |
-          echo "09f6317eae52a352dc53a2b604839bcfe18d11dbe1b72af2f80147b3ae67e6e7  Sitonfixer-source.zip" | shasum -a 256 -c -
+          echo "bc99e6c16da58101dc2ebe0d1c8c42a8efab0e89eb1c457821a227460238adc2  Sitonfixer-source.zip" | shasum -a 256 -c -
           unzip -q Sitonfixer-source.zip -d payload
           python3 payload/Sitonfixer/bootstrap.py --destination source
       - name: Prepare macOS dependencies
