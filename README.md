@@ -20,11 +20,15 @@ Añade «Probar módulo firmado de 64 KiB». El linker de la plataforma genera u
 
 No son tres programas PowerPC diferentes ni un gestor de módulos para juegos. Es una prueba de tamaño, firma/carga de más páginas, offsets y llamadas entre funciones. Los tests previos ejecutan las instrucciones del compositor Swift real en un emulador ARM64 independiente y comprueban argumentos, pila, registros preservados y memoria. La revisión 10 se compiló e instaló y el usuario confirmó los 96 casos siguiendo el procedimiento de reinicio sin USB, red ni VPN; sin captura USB simultánea.
 
-## Trabajo actual: revisión 11
+## Cargador confirmado: revisión 11
 
 Añade «Probar carga y cierre de módulos», utilizando `SignedCodeImage`, `SignedCodeModule` y `ModuleLifetime`. Cada imagen recibe UUID e install_name propios antes de firmar. El cargador presta las entradas dentro de llamadas acotadas, impide nuevos préstamos al pedir el cierre y libera su referencia al cargador tras terminar las llamadas activas. La creación del directorio es exclusiva; una colisión no borra los archivos de otro módulo.
 
-La nueva prueba abre dos imágenes con marcadores distintos y el mismo programa PPC9, comprueba 192 casos y verifica cierre diferido, rechazo de llamadas nuevas y conservación de la otra biblioteca. El preflight utiliza además bibliotecas ARM64 reales de macOS, firma ad hoc sin claves del usuario, el cargador nativo y pruebas concurrentes del contrato de vida. Sigue pendiente compilar y validar esta revisión en el iPhone. No publica funciones en el dispatcher de juegos ni gestiona todavía sus hilos o renovación. Véase sitonfixer/MODULE-LIFETIME.md.
+La nueva prueba abre dos imágenes con marcadores distintos y el mismo programa PPC9, comprueba 192 casos y verifica cierre diferido, rechazo de llamadas nuevas y conservación de la otra biblioteca. El preflight utiliza además bibliotecas ARM64 reales de macOS, firma ad hoc sin claves del usuario, el cargador nativo y pruebas concurrentes del contrato de vida. La revisión 11 se compiló e instaló y el usuario confirmó los 192 casos después del reinicio sin USB, red ni VPN; sin captura USB simultánea. No publica funciones en el dispatcher de juegos ni gestiona todavía sus hilos o renovación. Véase sitonfixer/MODULE-LIFETIME.md.
+
+## Trabajo actual: revisión 12
+
+Añade «Probar entrada y salida de Cemu». El emisor compartido produce bytes inertes de los stubs reales de entrada/salida, con CPU, tabla y RAM suministradas como argumentos explícitos. La prueba los firma junto con el programa PPC9 y utiliza el cargador validado de la revisión 11. Se comprueban ambas salidas y 192 casos entre dos módulos. No cambia todavía la inicialización de juegos ni activa un modo firmado de producción. Compilación y prueba física pendientes. Véase sitonfixer/INTERFACE-PROBE.md.
 
 ## Compilación
 
