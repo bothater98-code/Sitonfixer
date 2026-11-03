@@ -1,4 +1,4 @@
-name: Sitonfixer â€” free iOS build
+name: Sitonfixer - free iOS build
 on:
   workflow_dispatch:
 permissions:
@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Verify reviewed source package
-        run: echo "100491eee4345109fd0b0a373abfed2a4643515927950934f7f983de8056ad34  Sitonfixer-source.zip" | shasum -a 256 -c -
+        run: echo "2fac3671a5bf11cf105e3004e6481e45e139efa771db272b9acdf8cb78715e98  Sitonfixer-source.zip" | shasum -a 256 -c -
       - name: Reconstruct pinned source
         run: |
           unzip -q Sitonfixer-source.zip -d payload
@@ -33,7 +33,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Verify and reconstruct reviewed source
         run: |
-          echo "100491eee4345109fd0b0a373abfed2a4643515927950934f7f983de8056ad34  Sitonfixer-source.zip" | shasum -a 256 -c -
+          echo "2fac3671a5bf11cf105e3004e6481e45e139efa771db272b9acdf8cb78715e98  Sitonfixer-source.zip" | shasum -a 256 -c -
           unzip -q Sitonfixer-source.zip -d payload
           python3 payload/Sitonfixer/bootstrap.py --destination source
       - name: Prepare macOS dependencies
