@@ -30,9 +30,13 @@ La nueva prueba abre dos imágenes con marcadores distintos y el mismo programa 
 
 Añade «Probar entrada y salida de Cemu». El emisor compartido produce bytes inertes de los stubs reales de entrada/salida, con CPU, tabla y RAM suministradas como argumentos explícitos. La prueba los firma junto con el programa PPC9 y utiliza el cargador validado de la revisión 11. Se comprueban ambas salidas y 192 casos entre dos módulos. Se compiló e instaló y el usuario confirmó esos 192 casos tras el reinicio sin USB, red ni VPN, sin observador USB simultáneo. No cambia todavía la inicialización de juegos ni activa un modo firmado de producción. Véase sitonfixer/INTERFACE-PROBE.md.
 
-## Trabajo actual: revisión 13
+## Despacho confirmado: revisión 13
 
-Añade «Probar despacho entre funciones PowerPC». Dos funciones distintas se compilan por separado y se cargan en dos imágenes firmadas. Una llamada PowerPC A → B retorna a una entrada de continuación de A mediante una tabla privada. La prueba retira B, comprueba la salida controlada, la repone y reanuda. Son 192 comprobaciones sobre 64 estados iniciales con ambas salidas firmadas. No ejecuta aún un intérprete de respaldo ni modifica las tablas de juegos. Compilación y prueba física pendientes. Véase sitonfixer/DISPATCH-PROBE.md.
+Añade «Probar despacho entre funciones PowerPC». Dos funciones distintas se compilan por separado y se cargan en dos imágenes firmadas. Una llamada PowerPC A → B retorna a una entrada de continuación de A mediante una tabla privada. La prueba retira B, comprueba la salida controlada, la repone y reanuda. Son 192 comprobaciones sobre 64 estados iniciales con ambas salidas firmadas. No ejecuta aún un intérprete de respaldo ni modifica las tablas de juegos. Se compiló e instaló y el usuario confirmó las 192 comprobaciones tras reinicio sin USB, red ni VPN; sin observador USB simultáneo. Véase sitonfixer/DISPATCH-PROBE.md.
+
+## Trabajo actual: revisión 14
+
+Añade «Probar inicialización real de Cemu», sin certificado: llama a la inicialización real del puente y núcleo, comprueba ocho condiciones sobre finalización, base de memoria, dos zonas iniciales, selección del intérprete, proceso limpio y ausencia de título. Reserva el proceso hasta cerrarlo y excluye lanzamientos y otras pruebas. No ejecuta aún instrucciones de juego ni valida toda la RAM. Compilación y prueba física pendientes. Véase sitonfixer/INITIALIZATION-PROBE.md.
 
 ## Compilación
 
