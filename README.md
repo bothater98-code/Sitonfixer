@@ -38,9 +38,13 @@ Añade «Probar despacho entre funciones PowerPC». Dos funciones distintas se c
 
 Añade «Probar inicialización real de Cemu», sin certificado: llama a la inicialización real del puente y núcleo, comprueba ocho condiciones sobre finalización, base de memoria, dos zonas iniciales, selección del intérprete, proceso limpio y ausencia de título. Reserva el proceso hasta cerrarlo y excluye lanzamientos y otras pruebas. No ejecuta aún instrucciones de juego ni valida toda la RAM. Se compiló e instaló y el usuario confirmó las ocho condiciones tras el protocolo de reinicio completo sin USB, red ni VPN, sin observador USB simultáneo. La verificación de confianza de la instalación se completó antes con Internet. Véase sitonfixer/INITIALIZATION-PROBE.md.
 
-## Trabajo actual: revisión 15
+## Intérprete real confirmado: revisión 15
 
-Añade «Probar intérprete real con RAM de Cemu», sin certificado. Incluye la inicialización, utiliza un bloque de 4 KiB asignado por el SysAllocator de Cemu y ejecuta un recorrido PowerPC controlado de llamada y retorno con carga/almacenamiento big-endian: 32 estados y 320 llamadas a la API de una instrucción. Verifica la ruta de despacho al intérprete, registros, código, RAM y guardas, y conserva el bloqueo de juegos hasta cerrar el proceso. La interfaz separa estas pruebas de las que requieren .p12. Compilación y ejecución física pendientes. No integra aún módulos firmados con intérprete ni arranca títulos. Véase sitonfixer/INTERPRETER-PROBE.md.
+Añade «Probar intérprete real con RAM de Cemu», sin certificado. Incluye la inicialización, utiliza un bloque de 4 KiB asignado por el SysAllocator de Cemu y ejecuta un recorrido PowerPC controlado de llamada y retorno con carga/almacenamiento big-endian: 32 estados y 320 llamadas a la API de una instrucción. Verifica la ruta de despacho al intérprete, registros, código, RAM y guardas, y conserva el bloqueo de juegos hasta cerrar el proceso. La interfaz separa estas pruebas de las que requieren .p12. Se compiló e instaló y el usuario confirmó el resultado correcto al protocolo explícito de reinicio completo sin USB, red ni VPN, sin observador USB simultáneo. No integra aún módulos firmados con intérprete ni arranca títulos. Véase sitonfixer/INTERPRETER-PROBE.md.
+
+## Trabajo actual: revisión 16
+
+Añade «Probar puente mixto de Cemu», con .p12. Prepara A con el frontend real en la dirección asignada por Cemu, firma y carga el módulo localmente, sale al host al llegar a B sin entrada compilada, interpreta sus cuatro instrucciones sobre CPU/RAM reales y vuelve a la continuación firmada de A. Comprueba 64 casos y 256 pasos interpretados con ambas salidas y una tabla privada de reserva dispersa. No cambia hooks ni tablas de producción. Compilación y ejecución física pendientes. No demuestra juegos, rendimiento ni renovación. Véase sitonfixer/MIXED-PROBE.md.
 
 ## Compilación
 
