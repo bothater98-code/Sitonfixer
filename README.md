@@ -34,9 +34,13 @@ Añade «Probar entrada y salida de Cemu». El emisor compartido produce bytes i
 
 Añade «Probar despacho entre funciones PowerPC». Dos funciones distintas se compilan por separado y se cargan en dos imágenes firmadas. Una llamada PowerPC A → B retorna a una entrada de continuación de A mediante una tabla privada. La prueba retira B, comprueba la salida controlada, la repone y reanuda. Son 192 comprobaciones sobre 64 estados iniciales con ambas salidas firmadas. No ejecuta aún un intérprete de respaldo ni modifica las tablas de juegos. Se compiló e instaló y el usuario confirmó las 192 comprobaciones tras reinicio sin USB, red ni VPN; sin observador USB simultáneo. Véase sitonfixer/DISPATCH-PROBE.md.
 
-## Trabajo actual: revisión 14
+## Inicialización real confirmada: revisión 14
 
-Añade «Probar inicialización real de Cemu», sin certificado: llama a la inicialización real del puente y núcleo, comprueba ocho condiciones sobre finalización, base de memoria, dos zonas iniciales, selección del intérprete, proceso limpio y ausencia de título. Reserva el proceso hasta cerrarlo y excluye lanzamientos y otras pruebas. No ejecuta aún instrucciones de juego ni valida toda la RAM. Compilación y prueba física pendientes. Véase sitonfixer/INITIALIZATION-PROBE.md.
+Añade «Probar inicialización real de Cemu», sin certificado: llama a la inicialización real del puente y núcleo, comprueba ocho condiciones sobre finalización, base de memoria, dos zonas iniciales, selección del intérprete, proceso limpio y ausencia de título. Reserva el proceso hasta cerrarlo y excluye lanzamientos y otras pruebas. No ejecuta aún instrucciones de juego ni valida toda la RAM. Se compiló e instaló y el usuario confirmó las ocho condiciones tras el protocolo de reinicio completo sin USB, red ni VPN, sin observador USB simultáneo. La verificación de confianza de la instalación se completó antes con Internet. Véase sitonfixer/INITIALIZATION-PROBE.md.
+
+## Trabajo actual: revisión 15
+
+Añade «Probar intérprete real con RAM de Cemu», sin certificado. Incluye la inicialización, utiliza un bloque de 4 KiB asignado por el SysAllocator de Cemu y ejecuta un recorrido PowerPC controlado de llamada y retorno con carga/almacenamiento big-endian: 32 estados y 320 llamadas a la API de una instrucción. Verifica la ruta de despacho al intérprete, registros, código, RAM y guardas, y conserva el bloqueo de juegos hasta cerrar el proceso. La interfaz separa estas pruebas de las que requieren .p12. Compilación y ejecución física pendientes. No integra aún módulos firmados con intérprete ni arranca títulos. Véase sitonfixer/INTERPRETER-PROBE.md.
 
 ## Compilación
 
